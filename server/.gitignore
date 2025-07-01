@@ -1,4 +1,45 @@
-node_modules
-dist
+# Node dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables
 .env
+.env.*
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Prisma generated files
 /src/generated/prisma
+
+# Coverage reports
+coverage/
+
+# Misc
+*.local
+*.log
+*.tmp
+*.swp
+*.bak
+*.pid
+*.seed
+*.tgz
+
+# Optional: Ignore test output
+/test-results/
