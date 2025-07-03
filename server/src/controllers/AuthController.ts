@@ -36,7 +36,11 @@ class AuthController{
                 status: "success",
                 message: "Login successful",
                 data: {
-                    ...findUser,
+                    id: findUser.id,
+                    name: findUser.name,
+                    email: findUser.email,
+                    image: findUser.image,
+                    provider: findUser.provider,
                     token: `Bearer ${token}`
                 }
             })
