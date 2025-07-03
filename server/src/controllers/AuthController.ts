@@ -23,7 +23,7 @@ class AuthController{
                         name: body.name,
                         email: body.email,
                         provider: body.provider,
-                        oauth_id: body.oauth_id,
+                        oauthId: body.oauth_id,
                         image: body.image
                     }
                 });
