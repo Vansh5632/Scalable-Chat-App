@@ -23,7 +23,7 @@ class AuthController{
                         name: body.name,
                         email: body.email,
                         provider: body.provider,
-                        oauthId: body.oauth_id,
+                        oauth_id: body.oauth_id,
                         image: body.image
                     }
                 });
@@ -35,7 +35,7 @@ class AuthController{
             return res.json({
                 status: "success",
                 message: "Login successful",
-                data: {
+                user: {
                     id: findUser.id,
                     name: findUser.name,
                     email: findUser.email,

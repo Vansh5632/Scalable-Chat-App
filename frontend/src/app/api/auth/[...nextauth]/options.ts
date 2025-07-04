@@ -52,14 +52,13 @@ export const authOption: AuthOptions = {
     },
     async session({
       session,
-      user,
       token,
     }: {
       session: CustomSession;
       user: CustomUser;
       token: JWT;
     }) {
-      session.user = user as CustomUser;
+      session.user = token.user as CustomUser;
       return session;
     },
     async jwt({ token, user }: { token: JWT; user?: CustomUser }) {

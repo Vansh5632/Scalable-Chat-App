@@ -19,6 +19,6 @@ model User {
   email    String  @unique @db.VarChar(191)
   provider String  @db.VarChar(100)
   image    String?
-  oauthId  String
+  oauth_id  String
   createdAt DateTime @default(now())
 }
