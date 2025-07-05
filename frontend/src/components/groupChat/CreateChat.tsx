@@ -18,9 +18,9 @@ import {
 } from "@/validations/groupChatValidation";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/options";
 import axios, { AxiosError } from "axios";
-import { CHAT_GROUP } from "@/lib/apiAuthRoutes";
+import { CHAT_GROUP_URL } from "@/lib/apiEndPoints";
 import { toast } from "sonner";
-import { clearCache } from "@/actions/common";
+// import { clearCache } from "@/actions/common";
 
 export default function CreateChat({ user }: { user: CustomUser }) {
   const [open, setOpen] = useState(false);
@@ -37,7 +37,7 @@ export default function CreateChat({ user }: { user: CustomUser }) {
     // console.log("The payload is", payload);
     try {
       setLoading(true);
-      const { data } = await axios.post(CHAT_GROUP, payload, {
+      const { data } = await axios.post(CHAT_GROUP_URL, payload, {
         headers: {
           Authorization: user.token,
         },
@@ -46,7 +46,7 @@ export default function CreateChat({ user }: { user: CustomUser }) {
       if (data?.message) {
         setOpen(false);
         toast.success(data?.message);
-        clearCache("dashboard");
+        // clearCache("dashboard");
       }
       setLoading(false);
     } catch (error) {
