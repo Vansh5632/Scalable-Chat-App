@@ -15,7 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   createChatSchema,
   createChatSchemaType,
-} from "@/validations/chatSchema";
+} from "@/validations/groupChatValidation";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/options";
 import axios, { AxiosError } from "axios";
 import { CHAT_GROUP } from "@/lib/apiAuthRoutes";
