@@ -1,13 +1,13 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CustomUser } from "@/app/api/auth/[...nextauth]/options";
-import GroupChatCardMenu from "./GroupChatCardMenu.tsx";
+import GroupChatCardMenu from "./GroupChatCardMenu";
 
 export default function GroupChatCard({
   group,
   user,
 }: {
-  group: GroupChatType;
+  group: ChatGroupType;
   user: CustomUser;
 }) {
   return (
