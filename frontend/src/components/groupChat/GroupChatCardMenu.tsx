@@ -18,7 +18,7 @@ export default function GroupChatCardMenu({
   group,
   user,
 }: {
-  group: GroupChatType;
+  group: ChatGroupType;
   user: CustomUser;
 }) {
   const [deleteDialog, setDeleteDialog] = useState(false);
