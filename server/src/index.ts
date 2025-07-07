@@ -2,9 +2,20 @@ import express, { Application, Request, Response } from "express";
 import "dotenv/config";
 import cors from "cors";
 import Routes from "./routes/index";
+import { Server } from "socket.io";
+import { createServer } from "http";
 
 const app: Application = express();
 const PORT = process.env.PORT || 7000;
+
+const server = createServer(app);
+const io = new Server(server, {
+  cors:{
+    origin:"*",
+  }
+});
+
+export { io }; 
 
 // * Middleware
 app.use(cors({
@@ -22,4 +33,4 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/v1", Routes);
 
-app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
+server.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
