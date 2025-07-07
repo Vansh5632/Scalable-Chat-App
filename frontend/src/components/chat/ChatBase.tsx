@@ -2,10 +2,12 @@
 import React, { useEffect, useMemo } from "react";
 import { getSocket } from "@/lib/socket.config";
 
-export default function ChatBase() {
+export default function ChatBase({groupId}: {groupId: string}) {
   let socket = useMemo(() => {
     const socket = getSocket();
-
+    socket.auth = {
+      room:groupId,
+    }
     return socket.connect();
   }, []);
 
