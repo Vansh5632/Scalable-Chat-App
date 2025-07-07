@@ -4,6 +4,7 @@ import cors from "cors";
 import Routes from "./routes/index";
 import { Server } from "socket.io";
 import { createServer } from "http";
+import { setupSocket } from "./socket";
 
 const app: Application = express();
 const PORT = process.env.PORT || 7000;
@@ -14,7 +15,7 @@ const io = new Server(server, {
     origin:"*",
   }
 });
-
+setupSocket(io);
 export { io }; 
 
 // * Middleware
