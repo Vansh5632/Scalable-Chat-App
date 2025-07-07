@@ -1,34 +1,34 @@
-import {Server,Socket} from 'socket.io';
+import { Server, Socket } from "socket.io";
+import { produceMessage } from "./helper.js";
 
 interface CustomSocket extends Socket {
-    room?: string;
+  room?: string;
 }
-
 export function setupSocket(io: Server) {
+  io.use((socket: CustomSocket, next) => {
+    const room = socket.handshake.auth.room || socket.handshake.headers.room;
+    if (!room) {
+      return next(new Error("Invalid room"));
+    }
+    socket.room = room;
+    next();
+  });
 
-    io.use((socket:CustomSocket,next)=>{
-        const room = socket.handshake.auth.room || socket.handshake.headers.room;
-        if (!room) {
-            return next(new Error("Room is required"));
-        }
-        socket.room = room;
-        next();
-    })
+  io.on("connection", (socket: CustomSocket) => {
+    // * Join the room
+    socket.join(socket.room);
 
+    socket.on("message", async (data) => {
+      try {
+        await produceMessage("chats", data);
+      } catch (error) {
+        console.log("The kafka produce error is", error);
+      }
+      socket.to(socket.room).emit("message", data);
+    });
 
-    io.on("connection",(socket:CustomSocket)=>{
-
-        socket.join(socket.room!);
-        console.log("the socket is connected..",socket.id);
-
-        socket.on("message",(data)=>{
-            console.log("server side message",data);
-            // Emit the message to the room
-            io.to(socket.room!).emit("message", data);
-        });
-
-        socket.on("disconnect", () => {
-            console.log("the socket is disconnected..", socket.id);
-        });
-    })
+    socket.on("disconnect", () => {
+      console.log("A user disconnected:", socket.id);
+    });
+  });
 }
