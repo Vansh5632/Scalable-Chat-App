@@ -53,32 +53,57 @@ export default function Chats({
   };
 
   return (
-    <div className="flex flex-col h-[94vh]  p-4">
-      <div className="flex-1 overflow-y-auto flex flex-col-reverse">
+    <div className="flex flex-col h-[94vh] p-4 glass-dark rounded-lg">
+      <div className="flex-1 overflow-y-auto flex flex-col-reverse custom-scrollbar pr-2">
         <div ref={messagesEndRef} />
-        <div className="flex flex-col gap-2">
-          {messages.map((message) => (
+        <div className="flex flex-col gap-3">
+          {messages.map((message, index) => (
             <div
               key={message.id}
-              className={`max-w-sm rounded-lg p-2 ${
+              className={`max-w-sm rounded-2xl p-3 shadow-lg message-slide ${
                 message.name === chatUser?.name
-                  ? "bg-gradient-to-r from-blue-400 to-blue-600  text-white self-end"
-                  : "bg-gradient-to-r from-gray-200 to-gray-300 text-black self-start"
+                  ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white self-end transform hover:scale-105 transition-transform duration-200"
+                  : "glass-dark text-gray-100 self-start border border-gray-600/30 hover:border-gray-500/50 transition-colors duration-200"
               }`}
+              style={{
+                animationDelay: `${index * 0.1}s`
+              }}
             >
-              {message.message}
+              {message.name !== chatUser?.name && (
+                <div className="text-xs text-blue-400 mb-1 font-medium">
+                  {message.name}
+                </div>
+              )}
+              <div className="break-words">{message.message}</div>
+              <div className={`text-xs mt-1 ${
+                message.name === chatUser?.name ? 'text-blue-100' : 'text-gray-400'
+              }`}>
+                {new Date(message.created_at).toLocaleTimeString([], { 
+                  hour: '2-digit', 
+                  minute: '2-digit' 
+                })}
+              </div>
             </div>
           ))}
         </div>
       </div>
-      <form onSubmit={handleSubmit} className="mt-2 flex items-center">
-        <input
-          type="text"
-          placeholder="Type a message..."
-          value={message}
-          className="flex-1 p-2 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => setMessage(e.target.value)}
-        />
+      <form onSubmit={handleSubmit} className="mt-4 flex items-center gap-3">
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            placeholder="Type a message..."
+            value={message}
+            className="w-full glass-dark border border-gray-600/50 rounded-xl p-4 text-white placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200"
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <button
+            type="submit"
+            disabled={!message.trim()}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 disabled:from-gray-600 disabled:to-gray-700 text-white rounded-lg px-4 py-2 transition-all duration-200 disabled:cursor-not-allowed font-medium"
+          >
+            Send ✨
+          </button>
+        </div>
       </form>
     </div>
   );

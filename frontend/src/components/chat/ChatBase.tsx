@@ -24,9 +24,9 @@ export default function ChatBase({
     }
   }, [group.id]);
   return (
-    <div className="flex">
+    <div className="flex min-h-screen dark animated-bg">
       <ChatSidebar users={users} />
-      <div className="w-full md:w-4/5 bg-gradient-to-b from-gray-50 to-white">
+      <div className="w-full md:w-4/5 flex flex-col">
         {open ? (
           <ChatUserDialog open={open} setOpen={setOpen} group={group} />
         ) : (
@@ -34,7 +34,9 @@ export default function ChatBase({
         )}
 
         {/* Messages */}
-        <Chats oldMessages={oldMessages} group={group} chatUser={chatUser} />
+        <div className="flex-1 p-4">
+          <Chats oldMessages={oldMessages} group={group} chatUser={chatUser} />
+        </div>
       </div>
     </div>
   );

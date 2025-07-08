@@ -1,46 +1,25 @@
 import express, { Application, Request, Response } from "express";
 import "dotenv/config";
 import cors from "cors";
+import Routes from "./routes/index";
+
 const app: Application = express();
 const PORT = process.env.PORT || 7000;
-import Routes from "./routes/index.js";
-import { Server } from "socket.io";
-import { createServer } from "http";
-import { setupSocket } from "./socket.js";
-import { createAdapter } from "@socket.io/redis-streams-adapter";
-import redis from "./config/redis.config.js";
-import { connectKafkaProducer } from "./config/kafka.config.js";
-import { consumeMessages } from "./helper.js";
-
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: [process.env.CLIENT_APP_URL, "https://admin.socket.io"],
-  },
-  adapter: createAdapter(redis),
-});
-
-
-export { io };
-setupSocket(io);
 
 // * Middleware
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req: Request, res: Response) => {
-  return res.send("It's working Guys 🙌");
+  return res.send("It's working 🙌");
 });
 
-// * Add Kafka Producer
-connectKafkaProducer().catch((err) => console.log("Kafka Consumer error", err));
+app.use("/api/v1", Routes);
 
-consumeMessages(process.env.KAFKA_TOPIC!).catch((err) =>
-  console.log("The Kafka Consume error", err)
-);
-
-// * Routes
-app.use("/api", Routes);
-
-server.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
